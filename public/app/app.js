@@ -28,13 +28,17 @@ const App = () => {
     fetch('/api/products', {
         method: 'POST',
         headers: {
-            'Content-Type': 'appliaction/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(form)
     })
-    .then(res => res.json)
+    .then(res => res.json())
     .then((data) => {
-        console.log(data)
+        fetchProducts();
+        setForm({
+          name: '',
+          price:''
+        });
     })
   };
 
@@ -51,8 +55,17 @@ const App = () => {
             price: e.target.value
         })
     }
-  }
+  };
 
+const deleteProduct = (productId) =>{
+  fetch(`/api/products/${productId}`,{
+    method: 'DELETE',
+  }).then((res) => res.json())
+    .then((data) => {
+      fetchProducts();
+      console.log(data);
+    });
+}
   return (
     <>
         <div className="card" >
@@ -75,7 +88,7 @@ const App = () => {
                 <div>
                 <strong>{product.name}: </strong>${product.price}
                 </div>
-                <button className="btn ">
+                <button className="btn " onClick={() => deleteProduct(product.id)}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
