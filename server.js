@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mainRouter = require('./routes/index');
 const productsRouter = require('./routes/products');
+const ErrorHandler = require('./errors/ErrorHandler');
 
 
 const app = express();
@@ -14,7 +15,28 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(productsRouter);
 app.use(mainRouter);
+app.use((req, res, next) => {
+    return res.json({ message: 'page not found!'});
+});
 
+app.use((err, req, res, next) => {
+    if(err instanceof ErrorHandler) {
+        res.status(err.status).json({
+            error: {
+                message: err.message,
+                status: err.status
+            }
+        });
+    } else {
+        res.status(500).json({
+            error: {
+                message: err.message,
+                status: err.status
+            }
+        });
+    }
+    console.log('Error: ', err);
+});
 
 
 app.listen(PORT, () => {

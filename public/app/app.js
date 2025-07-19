@@ -237,9 +237,9 @@ const App = () => {
           <li key={product.id} className="list-group-item d-flex justify-content-between align-items-center">
             {editId === product.id ? (
               <div>
-                <input value={editForm.name} onChange={(e) => handleEditForm(e, 'name')} />
-                <input value={editForm.price} onChange={(e) => handleEditForm(e, 'price')} className="ml-2" />
-                <button className="btn btn-success btn-sm ml-2" onClick={() => saveEdit(product.id)}>Save</button>
+                <input className="me-2" value={editForm.name} onChange={(e) => handleEditForm(e, 'name')} />
+                <input className="me-2" value={editForm.price} onChange={(e) => handleEditForm(e, 'price')} />
+                <button className="btn btn-success btn-sm me-2" onClick={() => saveEdit(product.id)}>Save</button>
                 <button className="btn btn-secondary btn-sm ml-2" onClick={() => setEditId(null)}>Cancel</button>
               </div>
             ) : (

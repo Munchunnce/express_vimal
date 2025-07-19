@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const ErrorHandler = require('../errors/ErrorHandler');
 let products = require('../productData');
 
 router.get('/products', (req, res) => {
@@ -11,10 +12,12 @@ router.get('/api/products', (req, res) => {
     res.json(products);
 });
 
-router.post('/api/products', (req, res) => {
+router.post('/api/products', (req, res, next) => {
     const { name, price } = req.body;
     if(!name || !price){
-        return res.status(422).json({ error: 'All feilds are required.'});
+        next(ErrorHandler.validationError('Name and Price feilds are requireds!'));
+        // throw new Error('All feilds are required!');
+        // return res.status(422).json({ error: 'All feilds are required.'});
     }
 
     const product = {
